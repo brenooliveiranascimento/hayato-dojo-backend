@@ -17,7 +17,7 @@ export async function alunosRoutes(fastify: FastifyInstance) {
 
       const decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET || "secret-key"
+        process.env.JWT_SECRET || "hayato-dojo"
       ) as any;
       request.user = decoded;
     } catch (error) {

@@ -78,7 +78,7 @@ export async function authRoutes(fastify: FastifyInstance) {
 
         const token = jwt.sign(
           { dojoId: dojo.id, email: dojo.email },
-          process.env.JWT_SECRET || "secret-key",
+          process.env.JWT_SECRET || "hayato-dojo",
           { expiresIn: "24h" }
         );
 

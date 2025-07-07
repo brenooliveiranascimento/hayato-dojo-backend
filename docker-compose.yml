@@ -4,8 +4,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=karate
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=hayato
+      - POSTGRES_PASSWORD=karate_hayato
       - POSTGRES_DB=karate_db
     volumes:
       - .:/usr/postgres_database
