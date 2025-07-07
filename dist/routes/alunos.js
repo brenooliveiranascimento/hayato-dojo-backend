@@ -29,7 +29,7 @@ async function alunosRoutes(fastify) {
         },
     }, async (request, reply) => {
         try {
-            const { nome, idade, peso, kyu, dan, categoria } = request.body;
+            const { nome, idade, peso, kyu, dan, categoria, categoriaKata } = request.body;
             const { dojoId } = request.user;
             const novoAluno = alunoRepository.create({
                 nome,
@@ -39,6 +39,7 @@ async function alunosRoutes(fastify) {
                 dan,
                 dojoId,
                 categoria,
+                categoriaKata,
             });
             await alunoRepository.save(novoAluno);
             return reply.status(201).send({
@@ -110,7 +111,7 @@ async function alunosRoutes(fastify) {
         try {
             const { id } = request.params;
             const { dojoId } = request.user;
-            const { nome, idade, peso, kyu, dan } = request.body;
+            const { nome, idade, peso, kyu, dan, categoriaKata } = request.body;
             if (kyu && dan) {
                 return reply
                     .status(404)
@@ -128,6 +129,7 @@ async function alunosRoutes(fastify) {
                 peso,
                 kyu,
                 dan: dan ?? null,
+                categoriaKata,
             });
             const alunoAtualizado = await alunoRepository.findOne({
                 where: { id },

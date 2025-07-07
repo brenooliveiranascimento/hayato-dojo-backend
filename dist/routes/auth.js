@@ -32,8 +32,8 @@ async function authRoutes(fastify) {
                 email,
                 senha: senhaHash,
             });
+            const dojoCreated = await dojoRepository.save(novoDojo);
             const token = jsonwebtoken_1.default.sign({ dojoId: novoDojo.id, email: novoDojo.email }, process.env.JWT_SECRET || "hayato-dojo", { expiresIn: "24h" });
-            await dojoRepository.save(novoDojo);
             const { senha: _, ...dojoResponse } = novoDojo;
             return reply.status(201).send({
                 message: "Dojo cadastrado com sucesso",

@@ -32,6 +32,10 @@ __decorate([
     __metadata("design:type", Number)
 ], Aluno.prototype, "categoria", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ type: "int" }),
+    __metadata("design:type", Number)
+], Aluno.prototype, "categoriaKata", void 0);
+__decorate([
     (0, typeorm_1.Column)({ type: "decimal", precision: 5, scale: 2 }),
     __metadata("design:type", Number)
 ], Aluno.prototype, "peso", void 0);

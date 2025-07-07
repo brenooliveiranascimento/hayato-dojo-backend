@@ -6,7 +6,9 @@ import {
   TableForeignKey,
 } from "typeorm";
 
-export class CreateAlunos1640000000001 implements MigrationInterface {
+export class CreateCategoryKataColunm1640000000002
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
       "alunos",
