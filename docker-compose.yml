@@ -1,0 +1,11 @@
+services:
+  todo_dev_database:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=karate
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=karate_db
+    volumes:
+      - .:/usr/postgres_database
