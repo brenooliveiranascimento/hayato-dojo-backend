@@ -39,6 +39,12 @@ export async function authRoutes(fastify: FastifyInstance) {
           senha: senhaHash,
         });
 
+        const token = jwt.sign(
+          { dojoId: novoDojo.id, email: novoDojo.email },
+          process.env.JWT_SECRET || "hayato-dojo",
+          { expiresIn: "24h" }
+        );
+
         await dojoRepository.save(novoDojo);
 
         // Remover senha da resposta
@@ -47,6 +53,7 @@ export async function authRoutes(fastify: FastifyInstance) {
         return reply.status(201).send({
           message: "Dojo cadastrado com sucesso",
           dojo: dojoResponse,
+          token,
         });
       } catch (error) {
         console.error("Erro ao cadastrar dojo:", error);
