@@ -42,11 +42,10 @@ export async function authRoutes(fastify: FastifyInstance) {
         const dojoCreated = await dojoRepository.save(novoDojo);
 
         const token = jwt.sign(
-          { dojoId: novoDojo.id, email: novoDojo.email },
+          { dojoId: dojo.id, email: dojo.email },
           process.env.JWT_SECRET || "hayato-dojo",
-          { expiresIn: "24h" }
+          { expiresIn: "30d" }
         );
-
         // Remover senha da resposta
         const { senha: _, ...dojoResponse } = novoDojo;
 
@@ -86,7 +85,7 @@ export async function authRoutes(fastify: FastifyInstance) {
         const token = jwt.sign(
           { dojoId: dojo.id, email: dojo.email },
           process.env.JWT_SECRET || "hayato-dojo",
-          { expiresIn: "24h" }
+          { expiresIn: "30d" }
         );
 
         return reply.send({
