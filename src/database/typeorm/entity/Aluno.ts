@@ -23,6 +23,9 @@ export class Aluno {
   @Column({ type: "int" })
   categoria: number;
 
+  @Column({ type: "int" })
+  categoriaKata: number;
+
   @Column({ type: "decimal", precision: 5, scale: 2 })
   peso: number;
 
