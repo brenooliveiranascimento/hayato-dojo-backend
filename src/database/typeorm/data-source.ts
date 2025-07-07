@@ -13,4 +13,5 @@ export const AppDataSource = new DataSource({
   logging: true,
   entities: [path.resolve(__dirname, "entity", "*{js,.ts}")],
   migrations: [path.resolve(__dirname, "migrations", "*{js,.ts}")],
+  ssl: false,
 });
