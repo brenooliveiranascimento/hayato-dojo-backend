@@ -3,6 +3,7 @@ import { AppDataSource } from "./database/typeorm/data-source";
 import { authRoutes } from "./routes/auth";
 import { alunosRoutes } from "./routes/alunos";
 import "dotenv/config";
+require("dotenv").config();
 
 const fastify = Fastify({
   logger: true,
@@ -23,7 +24,6 @@ async function start() {
     // Inicializar conexão com banco
     await AppDataSource.initialize();
     console.log("Banco de dados conectado com sucesso");
-
     // Iniciar servidor
     await fastify.listen({ port: 3000, host: "0.0.0.0" });
     console.log("Servidor rodando na porta 3000");
