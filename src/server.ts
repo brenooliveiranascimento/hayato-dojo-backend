@@ -10,17 +10,11 @@ const fastify = Fastify({
   logger: true,
 });
 
-// Registrar plugins
-fastify.register(require("@fastify/cors"), {
-  origin: true,
-});
-
 // 1) registrar o CORS antes de tudo
-fastify.register(cors, {
-  origin: true, // permite qualquer origem
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: false, // true se você usar cookies/autenticação
+fastify.register(require("@fastify/cors"), {
+  origin: "*", // Alterado de true para "*"
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Opcional, mas recomendado para preflight requests
+  allowedHeaders: ["Content-Type", "Authorization"], // Opcional, mas recomendado
 });
 
 // Registrar rotas
