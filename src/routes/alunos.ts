@@ -375,7 +375,7 @@ export async function alunosRoutes(fastify: FastifyInstance) {
       try {
         const { id } = request.params as any;
         const { dojoId } = (request as any).user;
-        const { nome, idade, peso, kyu, dan, categoriaKata } =
+        const { nome, idade, peso, kyu, dan, categoriaKata, categoria } =
           request.body as any;
 
         if (kyu && dan) {
@@ -398,6 +398,7 @@ export async function alunosRoutes(fastify: FastifyInstance) {
           kyu,
           dan: dan ?? null,
           categoriaKata,
+          categoria,
         });
 
         const alunoAtualizado = await alunoRepository.findOne({
