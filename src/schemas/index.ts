@@ -35,6 +35,7 @@ export const AlunoSchema = {
     peso: { type: "number", minimum: 20, maximum: 200 },
     kyu: { type: "string", maxLength: 50 },
     dan: { type: "string", maxLength: 50 },
-    categoria: { type: "integer", maxLength: 50 },
+    categoria: { type: "integer" },
+    categoriaKata: { type: "integer" },
   },
 };
