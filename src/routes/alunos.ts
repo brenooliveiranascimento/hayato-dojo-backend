@@ -272,6 +272,10 @@ export async function alunosRoutes(fastify: FastifyInstance) {
       console.log("TA AQUI2");
       const { dojoId } = (request as any).user;
 
+      if (!dojoId) {
+        return reply.status(404).send({ error: "Sem token" });
+      }
+
       console.log("TA AQUI3", dojoId);
 
       // busca o dojo
