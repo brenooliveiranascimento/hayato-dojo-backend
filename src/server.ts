@@ -5,6 +5,7 @@ import { alunosRoutes } from "./routes/alunos";
 import "dotenv/config";
 require("dotenv").config();
 import cors from "@fastify/cors";
+import bracketRoutes from "./routes/keys";
 
 const fastify = Fastify({
   logger: true,
@@ -20,6 +21,7 @@ fastify.register(require("@fastify/cors"), {
 // Registrar rotas
 fastify.register(authRoutes);
 fastify.register(alunosRoutes);
+fastify.register(bracketRoutes);
 
 // Função para iniciar o servidor
 async function start() {
