@@ -18,7 +18,7 @@ interface Categoria {
 
 interface Team {
   name: string;
-  atletaId?: string;
+  atletaId?: number;
 }
 
 interface Seed {

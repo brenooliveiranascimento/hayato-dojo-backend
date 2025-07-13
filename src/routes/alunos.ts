@@ -363,26 +363,22 @@ export async function alunosRoutes(fastify: FastifyInstance) {
       return reply.status(500).send({ error: "Erro interno do servidor" });
     }
   });
-
   fastify.put(
     "/alunos/:id",
-    {
-      schema: {
-        body: AlunoSchema,
-      },
-    },
+    { schema: { body: AlunoSchema } },
     async (request, reply) => {
       try {
-        const { id } = request.params as any;
-        const { dojoId } = (request as any).user;
+        const id = Number((request.params as any).id);
+        const dojoId = (request as any).user.dojoId as number;
         const { nome, idade, peso, kyu, dan, categoriaKata, categoria } =
           request.body as any;
 
         if (kyu && dan) {
           return reply
-            .status(404)
+            .status(400)
             .send({ error: "Não deve preencher kyu e dan ao mesmo tempo" });
         }
+
         const aluno = await alunoRepository.findOne({
           where: { id, dojoId },
         });
@@ -391,26 +387,24 @@ export async function alunosRoutes(fastify: FastifyInstance) {
           return reply.status(404).send({ error: "Aluno não encontrado" });
         }
 
-        await alunoRepository.update(id, {
-          nome,
-          idade,
-          peso,
-          kyu,
-          dan: dan ?? null,
-          categoriaKata,
-          categoria,
-        });
+        // atribui novos valores
+        aluno.nome = nome;
+        aluno.idade = idade;
+        aluno.peso = peso;
+        aluno.kyu = kyu ?? null;
+        aluno.dan = dan ?? null;
+        aluno.categoriaKata = categoriaKata;
+        aluno.categoria = categoria;
 
-        const alunoAtualizado = await alunoRepository.findOne({
-          where: { id },
-        });
+        // aqui dispara o UpdateDateColumn
+        const alunoAtualizado = await alunoRepository.save(aluno);
 
         return reply.send({
           message: "Aluno atualizado com sucesso",
           aluno: alunoAtualizado,
         });
-      } catch (error) {
-        console.error("Erro ao atualizar aluno:", error);
+      } catch (err) {
+        console.error("Erro ao atualizar aluno:", err);
         return reply.status(500).send({ error: "Erro interno do servidor" });
       }
     }

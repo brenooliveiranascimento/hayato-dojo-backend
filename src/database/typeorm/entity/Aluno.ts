@@ -12,7 +12,7 @@ import { Dojo } from "./Dojo";
 @Entity("alunos")
 export class Aluno {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column({ type: "varchar", length: 255 })
   nome: string;
@@ -36,7 +36,7 @@ export class Aluno {
   dan: string;
 
   @Column({ type: "int" })
-  dojoId: string;
+  dojoId: number;
 
   @ManyToOne(() => Dojo, (dojo) => dojo.alunos)
   @JoinColumn({ name: "dojoId" })
