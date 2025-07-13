@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateAlunos1640000000002 = void 0;
+exports.CreateAlunos1640000000001 = void 0;
 const typeorm_1 = require("typeorm");
-class CreateAlunos1640000000002 {
+class CreateAlunos1640000000001 {
     async up(queryRunner) {
         await queryRunner.createTable(new typeorm_1.Table({
             name: "alunos",
@@ -72,4 +72,4 @@ class CreateAlunos1640000000002 {
         await queryRunner.dropTable("alunos");
     }
 }
-exports.CreateAlunos1640000000002 = CreateAlunos1640000000002;
+exports.CreateAlunos1640000000001 = CreateAlunos1640000000001;

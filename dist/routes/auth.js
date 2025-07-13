@@ -33,7 +33,7 @@ async function authRoutes(fastify) {
                 senha: senhaHash,
             });
             const dojoCreated = await dojoRepository.save(novoDojo);
-            const token = jsonwebtoken_1.default.sign({ dojoId: novoDojo.id, email: novoDojo.email }, process.env.JWT_SECRET || "hayato-dojo", { expiresIn: "24h" });
+            const token = jsonwebtoken_1.default.sign({ dojoId: novoDojo.id, email: novoDojo.email }, process.env.JWT_SECRET || "hayato-dojo", { expiresIn: "30d" });
             const { senha: _, ...dojoResponse } = novoDojo;
             return reply.status(201).send({
                 message: "Dojo cadastrado com sucesso",
@@ -61,7 +61,7 @@ async function authRoutes(fastify) {
             if (!senhaValida) {
                 return reply.status(401).send({ error: "Credenciais inválidas" });
             }
-            const token = jsonwebtoken_1.default.sign({ dojoId: dojo.id, email: dojo.email }, process.env.JWT_SECRET || "hayato-dojo", { expiresIn: "24h" });
+            const token = jsonwebtoken_1.default.sign({ dojoId: dojo.id, email: dojo.email }, process.env.JWT_SECRET || "hayato-dojo", { expiresIn: "30d" });
             return reply.send({
                 message: "Login realizado com sucesso",
                 token,
