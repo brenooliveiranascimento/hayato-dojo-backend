@@ -443,7 +443,7 @@ export async function alunosRoutes(fastify: FastifyInstance) {
   }
 
   fastify.post(
-    "/dojos/tecnics",
+    "/dojo/tecnics",
     async (
       request: FastifyRequest<{
         Body: UpdateTecnicsBody;

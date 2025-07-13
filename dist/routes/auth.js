@@ -70,6 +70,7 @@ async function authRoutes(fastify) {
                     nome: dojo.nome,
                     cidade: dojo.cidade,
                     email: dojo.email,
+                    tecnics: dojo.tecnics,
                 },
             });
         }

@@ -230,6 +230,21 @@ async function alunosRoutes(fastify) {
             return reply.status(500).send({ error: "Erro interno do servidor" });
         }
     });
+    fastify.get("/dojo/tecnics", async (request, reply) => {
+        try {
+            const { dojoId } = request.user;
+            const dojo = await dojoRepository.findOne({
+                where: { id: dojoId },
+            });
+            return reply.send({
+                tecnics: dojo?.tecnics ?? "",
+            });
+        }
+        catch (error) {
+            console.error("Erro ao buscar tecnics:", error);
+            return reply.status(500).send({ error: "Erro interno do servidor" });
+        }
+    });
     fastify.get("/dojo/alunos/auto/brackets", async (request, reply) => {
         try {
             const { dojoId } = request.user;
