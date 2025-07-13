@@ -97,6 +97,7 @@ export async function authRoutes(fastify: FastifyInstance) {
             nome: dojo.nome,
             cidade: dojo.cidade,
             email: dojo.email,
+            tecnics: dojo.tecnics,
           },
         });
       } catch (error) {
