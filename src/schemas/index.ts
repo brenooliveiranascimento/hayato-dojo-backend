@@ -25,17 +25,3 @@ export const LoginSchema = {
     senha: { type: "string", minLength: 6 },
   },
 };
-
-export const AlunoSchema = {
-  type: "object",
-  required: ["nome", "idade", "peso"],
-  properties: {
-    nome: { type: "string", minLength: 2, maxLength: 255 },
-    idade: { type: "integer", minimum: 5, maximum: 100 },
-    peso: { type: "number", minimum: 20, maximum: 200 },
-    kyu: { type: "string", maxLength: 50 },
-    dan: { type: "string", maxLength: 50 },
-    categoria: { type: "integer" },
-    categoriaKata: { type: "integer" },
-  },
-};
