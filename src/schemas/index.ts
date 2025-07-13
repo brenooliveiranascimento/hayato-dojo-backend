@@ -9,6 +9,14 @@ export const DojoSchema = {
   },
 };
 
+export const DojoTecnicsSchema = {
+  type: "object",
+  required: ["tecnics"],
+  properties: {
+    tecnics: { type: "string", minLength: 1, maxLength: 255 },
+  },
+};
+
 export const LoginSchema = {
   type: "object",
   required: ["email", "senha"],

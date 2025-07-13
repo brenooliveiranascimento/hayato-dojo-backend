@@ -19,6 +19,9 @@ export class Dojo {
   @Column({ type: "varchar", length: 255 })
   cidade!: string;
 
+  @Column({ type: "varchar", length: 255 })
+  tecnics!: string;
+
   @Column({ type: "varchar", length: 255, unique: true })
   email!: string;
 

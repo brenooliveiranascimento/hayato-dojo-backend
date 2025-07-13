@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AlunoSchema = exports.LoginSchema = exports.DojoSchema = void 0;
+exports.AlunoSchema = exports.LoginSchema = exports.DojoTecnicsSchema = exports.DojoSchema = void 0;
 exports.DojoSchema = {
     type: "object",
     required: ["nome", "cidade", "email", "senha"],
@@ -9,6 +9,13 @@ exports.DojoSchema = {
         cidade: { type: "string", minLength: 2, maxLength: 255 },
         email: { type: "string", format: "email" },
         senha: { type: "string", minLength: 6 },
+    },
+};
+exports.DojoTecnicsSchema = {
+    type: "object",
+    required: ["tecnics"],
+    properties: {
+        tecnics: { type: "string", minLength: 1, maxLength: 255 },
     },
 };
 exports.LoginSchema = {

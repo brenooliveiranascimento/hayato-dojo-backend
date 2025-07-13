@@ -9,6 +9,7 @@ const data_source_1 = require("../database/typeorm/data-source");
 const Aluno_1 = require("../database/typeorm/entity/Aluno");
 const schemas_1 = require("../schemas");
 const categorias_1 = require("../config/categorias");
+const Dojo_1 = require("../database/typeorm/entity/Dojo");
 function extrairGraduacao(kyuStr, danStr) {
     const kyu = kyuStr ? parseInt(kyuStr.replace(/[^0-9]/g, "")) || 0 : 0;
     const dan = danStr ? parseInt(danStr.replace(/[^0-9]/g, "")) || 0 : 0;
@@ -167,6 +168,7 @@ function gerarEstatisticas(categoriasSeparadas) {
     return stats;
 }
 async function alunosRoutes(fastify) {
+    const dojoRepository = data_source_1.AppDataSource.getRepository(Dojo_1.Dojo);
     const alunoRepository = data_source_1.AppDataSource.getRepository(Aluno_1.Aluno);
     fastify.addHook("preHandler", async (request, reply) => {
         try {
@@ -189,6 +191,7 @@ async function alunosRoutes(fastify) {
         try {
             const { nome, idade, peso, kyu, dan, categoria, categoriaKata } = request.body;
             const { dojoId } = request.user;
+            console.log({ dojoId });
             const novoAluno = alunoRepository.create({
                 nome,
                 idade,
@@ -358,6 +361,34 @@ async function alunosRoutes(fastify) {
         }
         catch (error) {
             console.error("Erro ao deletar aluno:", error);
+            return reply.status(500).send({ error: "Erro interno do servidor" });
+        }
+    });
+    fastify.post("/dojos/tecnics", async (request, reply) => {
+        try {
+            console.log("TA AQUI");
+            const { tecnics } = request.body;
+            console.log("TA AQUI2");
+            const { dojoId } = request.user;
+            console.log("TA AQUI3", dojoId);
+            const dojo = await dojoRepository.findOne({ where: { id: dojoId } });
+            console.log({ dojo });
+            if (!dojo) {
+                return reply.status(404).send({ error: "Dojo não encontrado" });
+            }
+            if (dojo.id !== dojoId) {
+                return reply.status(404).send({ error: "Sem permissão" });
+            }
+            dojo.tecnics = tecnics;
+            await dojoRepository.save(dojo);
+            return reply.send({
+                message: "Tecnics atualizado com sucesso",
+                dojo,
+            });
+        }
+        catch (err) {
+            console.log(JSON.stringify(err, null, 2));
+            fastify.log.error("Erro ao atualizar tecnics do dojo:", err);
             return reply.status(500).send({ error: "Erro interno do servidor" });
         }
     });
