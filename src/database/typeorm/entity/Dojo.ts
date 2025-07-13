@@ -20,7 +20,7 @@ export class Dojo {
   cidade!: string;
 
   @Column({ type: "varchar", length: 255 })
-  tecnics!: string;
+  tecnics!: string | null;
 
   @Column({ type: "varchar", length: 255, unique: true })
   email!: string;

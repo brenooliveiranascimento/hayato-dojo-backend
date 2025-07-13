@@ -339,6 +339,7 @@ export async function alunosRoutes(fastify: FastifyInstance) {
   });
   fastify.put("/alunos/:id", async (request, reply) => {
     try {
+      console.log(request.body, "BODY RECEBIDO");
       const id = Number((request.params as any).id);
       const dojoId = (request as any).user.dojoId as number;
       const { nome, idade, peso, kyu, dan, categoriaKata, categoria } =

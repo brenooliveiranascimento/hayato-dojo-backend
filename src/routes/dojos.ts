@@ -1,8 +1,6 @@
 import { FastifyInstance, FastifyRequest } from "fastify";
 import jwt from "jsonwebtoken";
 import { AppDataSource } from "../database/typeorm/data-source";
-import { Aluno } from "../database/typeorm/entity/Aluno";
-import { categorias } from "../config/categorias";
 import { Dojo } from "../database/typeorm/entity/Dojo";
 
 export async function dojosRoutes(fastify: FastifyInstance) {
