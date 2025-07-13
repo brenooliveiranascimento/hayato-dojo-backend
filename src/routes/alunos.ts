@@ -261,53 +261,44 @@ export async function alunosRoutes(fastify: FastifyInstance) {
     }
   });
 
-  interface UpdateTecnicsBody {
-    tecnics: string;
-  }
+  fastify.post("/dojo/tecnics/add", async (request, reply) => {
+    try {
+      // extrai o novo valor e o dojoId do usuário autenticado
+      console.log("TA AQUI");
+      const body = request.body as any;
 
-  fastify.post(
-    "/dojo/tecnics/add",
-    async (
-      request: FastifyRequest<{
-        Body: UpdateTecnicsBody;
-      }>,
-      reply
-    ) => {
-      try {
-        // extrai o novo valor e o dojoId do usuário autenticado
-        console.log("TA AQUI");
-        const { tecnics } = request.body;
-        console.log("TA AQUI2");
-        const { dojoId } = (request as any).user;
+      const tecnics = body.tecnics;
 
-        console.log("TA AQUI3", dojoId);
+      console.log("TA AQUI2");
+      const { dojoId } = (request as any).user;
 
-        // busca o dojo
-        const dojo = await dojoRepository.findOne({ where: { id: dojoId } });
-        console.log({ dojo });
-        if (!dojo) {
-          return reply.status(404).send({ error: "Dojo não encontrado" });
-        }
+      console.log("TA AQUI3", dojoId);
 
-        if (dojo.id !== dojoId) {
-          return reply.status(404).send({ error: "Sem permissão" });
-        }
-
-        // atualiza e salva
-        dojo.tecnics = tecnics;
-        await dojoRepository.save(dojo);
-
-        return reply.send({
-          message: "Tecnics atualizado com sucesso",
-          dojo,
-        });
-      } catch (err) {
-        console.log(JSON.stringify(err, null, 2));
-        fastify.log.error("Erro ao atualizar tecnics do dojo:", err);
-        return reply.status(500).send({ error: "Erro interno do servidor" });
+      // busca o dojo
+      const dojo = await dojoRepository.findOne({ where: { id: dojoId } });
+      console.log({ dojo });
+      if (!dojo) {
+        return reply.status(404).send({ error: "Dojo não encontrado" });
       }
+
+      if (dojo.id !== dojoId) {
+        return reply.status(404).send({ error: "Sem permissão" });
+      }
+
+      // atualiza e salva
+      dojo.tecnics = tecnics ?? "";
+      await dojoRepository.save(dojo);
+
+      return reply.send({
+        message: "Tecnics atualizado com sucesso",
+        dojo,
+      });
+    } catch (err) {
+      console.log(JSON.stringify(err, null, 2));
+      fastify.log.error("Erro ao atualizar tecnics do dojo:", err);
+      return reply.status(500).send({ error: "Erro interno do servidor" });
     }
-  );
+  });
 
   fastify.get("/dojo/tecnics", async (request, reply) => {
     try {
