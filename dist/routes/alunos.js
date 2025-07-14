@@ -7,7 +7,6 @@ exports.alunosRoutes = alunosRoutes;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const data_source_1 = require("../database/typeorm/data-source");
 const Aluno_1 = require("../database/typeorm/entity/Aluno");
-const schemas_1 = require("../schemas");
 const categorias_1 = require("../config/categorias");
 const Dojo_1 = require("../database/typeorm/entity/Dojo");
 function extrairGraduacao(kyuStr, danStr) {
@@ -183,11 +182,7 @@ async function alunosRoutes(fastify) {
             return reply.status(401).send({ error: "Token inválido" });
         }
     });
-    fastify.post("/alunos", {
-        schema: {
-            body: schemas_1.AlunoSchema,
-        },
-    }, async (request, reply) => {
+    fastify.post("/alunos", async (request, reply) => {
         try {
             const { nome, idade, peso, kyu, dan, categoria, categoriaKata } = request.body;
             const { dojoId } = request.user;
@@ -227,21 +222,6 @@ async function alunosRoutes(fastify) {
         }
         catch (error) {
             console.error("Erro ao listar alunos:", error);
-            return reply.status(500).send({ error: "Erro interno do servidor" });
-        }
-    });
-    fastify.get("/dojo/tecnics", async (request, reply) => {
-        try {
-            const { dojoId } = request.user;
-            const dojo = await dojoRepository.findOne({
-                where: { id: dojoId },
-            });
-            return reply.send({
-                tecnics: dojo?.tecnics ?? "",
-            });
-        }
-        catch (error) {
-            console.error("Erro ao buscar tecnics:", error);
             return reply.status(500).send({ error: "Erro interno do servidor" });
         }
     });
@@ -319,44 +299,39 @@ async function alunosRoutes(fastify) {
             return reply.status(500).send({ error: "Erro interno do servidor" });
         }
     });
-    fastify.put("/alunos/:id", {
-        schema: {
-            body: schemas_1.AlunoSchema,
-        },
-    }, async (request, reply) => {
+    fastify.put("/alunos/:id", async (request, reply) => {
         try {
-            const { id } = request.params;
-            const { dojoId } = request.user;
-            const { nome, idade, peso, kyu, dan, categoriaKata } = request.body;
+            console.log(request.body, "BODY RECEBIDO");
+            const id = Number(request.params.id);
+            const dojoId = request.user.dojoId;
+            const { nome, idade, peso, kyu, dan, categoriaKata, categoria } = request.body;
             if (kyu && dan) {
                 return reply
-                    .status(404)
+                    .status(400)
                     .send({ error: "Não deve preencher kyu e dan ao mesmo tempo" });
             }
             const aluno = await alunoRepository.findOne({
                 where: { id, dojoId },
             });
+            console.log(id, aluno);
             if (!aluno) {
                 return reply.status(404).send({ error: "Aluno não encontrado" });
             }
-            await alunoRepository.update(id, {
-                nome,
-                idade,
-                peso,
-                kyu,
-                dan: dan ?? null,
-                categoriaKata,
-            });
-            const alunoAtualizado = await alunoRepository.findOne({
-                where: { id },
-            });
+            aluno.nome = nome;
+            aluno.idade = idade;
+            aluno.peso = peso;
+            aluno.kyu = kyu ?? null;
+            aluno.dan = dan ?? null;
+            aluno.categoriaKata = categoriaKata;
+            aluno.categoria = categoria;
+            const alunoAtualizado = await alunoRepository.save(aluno);
             return reply.send({
                 message: "Aluno atualizado com sucesso",
                 aluno: alunoAtualizado,
             });
         }
-        catch (error) {
-            console.error("Erro ao atualizar aluno:", error);
+        catch (err) {
+            console.error("Erro ao atualizar aluno:", err);
             return reply.status(500).send({ error: "Erro interno do servidor" });
         }
     });
@@ -376,34 +351,6 @@ async function alunosRoutes(fastify) {
         }
         catch (error) {
             console.error("Erro ao deletar aluno:", error);
-            return reply.status(500).send({ error: "Erro interno do servidor" });
-        }
-    });
-    fastify.post("/dojos/tecnics", async (request, reply) => {
-        try {
-            console.log("TA AQUI");
-            const { tecnics } = request.body;
-            console.log("TA AQUI2");
-            const { dojoId } = request.user;
-            console.log("TA AQUI3", dojoId);
-            const dojo = await dojoRepository.findOne({ where: { id: dojoId } });
-            console.log({ dojo });
-            if (!dojo) {
-                return reply.status(404).send({ error: "Dojo não encontrado" });
-            }
-            if (dojo.id !== dojoId) {
-                return reply.status(404).send({ error: "Sem permissão" });
-            }
-            dojo.tecnics = tecnics;
-            await dojoRepository.save(dojo);
-            return reply.send({
-                message: "Tecnics atualizado com sucesso",
-                dojo,
-            });
-        }
-        catch (err) {
-            console.log(JSON.stringify(err, null, 2));
-            fastify.log.error("Erro ao atualizar tecnics do dojo:", err);
             return reply.status(500).send({ error: "Erro interno do servidor" });
         }
     });

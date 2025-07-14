@@ -29,7 +29,7 @@ __decorate([
 ], Dojo.prototype, "cidade", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 255 }),
-    __metadata("design:type", String)
+    __metadata("design:type", Object)
 ], Dojo.prototype, "tecnics", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 255, unique: true }),

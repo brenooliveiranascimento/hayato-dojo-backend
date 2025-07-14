@@ -17,7 +17,7 @@ let Aluno = class Aluno {
 exports.Aluno = Aluno;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], Aluno.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "varchar", length: 255 }),
@@ -49,7 +49,7 @@ __decorate([
 ], Aluno.prototype, "dan", void 0);
 __decorate([
     (0, typeorm_1.Column)({ type: "int" }),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], Aluno.prototype, "dojoId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Dojo_1.Dojo, (dojo) => dojo.alunos),

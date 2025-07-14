@@ -10,6 +10,7 @@ const alunos_1 = require("./routes/alunos");
 require("dotenv/config");
 require("dotenv").config();
 const keys_1 = __importDefault(require("./routes/keys"));
+const dojos_1 = require("./routes/dojos");
 const fastify = (0, fastify_1.default)({
     logger: true,
 });
@@ -21,6 +22,7 @@ fastify.register(require("@fastify/cors"), {
 fastify.register(auth_1.authRoutes);
 fastify.register(alunos_1.alunosRoutes);
 fastify.register(keys_1.default);
+fastify.register(dojos_1.dojosRoutes);
 async function start() {
     try {
         await data_source_1.AppDataSource.initialize();
