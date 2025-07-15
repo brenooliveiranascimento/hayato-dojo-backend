@@ -1356,7 +1356,7 @@ export default async function bracketRoutes(fastify: FastifyInstance) {
           const cat = group.categoria;
           const categoriaInfo: CategoriaInfo = {
             tipo: "kata",
-            categoria: cat.categoria || key,
+            categoria: `${cat.codigo} - ${cat.categoria}` || key, // fallback para key
             genero: cat.genero,
             faixa: cat.faixa,
             peso: undefined,

@@ -253,7 +253,7 @@ async function bracketRoutes(fastify) {
                 const cat = group.categoria;
                 const categoriaInfo = {
                     tipo: "kata",
-                    categoria: cat.categoria || key,
+                    categoria: `${cat.codigo} - ${cat.categoria}` || key,
                     genero: cat.genero,
                     faixa: cat.faixa,
                     peso: undefined,
