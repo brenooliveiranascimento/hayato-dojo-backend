@@ -20,6 +20,10 @@ interface Team {
   name: string;
   atletaId?: number;
   dojo?: string;
+  idade?: number;
+  peso?: number;
+  kyu?: string;
+  dan?: string;
 }
 
 interface Seed {
@@ -199,6 +203,10 @@ const createTournamentBracket = (
               name: atleta1.nome,
               atletaId: atleta1.id,
               dojo: atleta1.dojo.nome,
+              idade: atleta1.idade,
+              peso: atleta1.peso,
+              dan: atleta1.dan,
+              kyu: atleta1.kyu,
             }
           : { name: "Sem competidor" },
         atleta2
@@ -206,6 +214,10 @@ const createTournamentBracket = (
               name: atleta2.nome,
               atletaId: atleta2.id,
               dojo: atleta2.dojo.nome,
+              idade: atleta2.idade,
+              peso: atleta2.peso,
+              dan: atleta2.dan,
+              kyu: atleta2.kyu,
             }
           : { name: "Sem competidor" },
       ],
@@ -1354,6 +1366,10 @@ export default async function bracketRoutes(fastify: FastifyInstance) {
                         name: atleta.nome,
                         atletaId: atleta.id,
                         dojo: atleta.nome,
+                        idade: atleta.idade,
+                        peso: atleta.peso,
+                        dan: atleta.dan,
+                        kyu: atleta.kyu,
                       },
                     ],
                   },
