@@ -225,6 +225,75 @@ async function alunosRoutes(fastify) {
             return reply.status(500).send({ error: "Erro interno do servidor" });
         }
     });
+    fastify.get("/dojo/alunos/message", async (request, reply) => {
+        try {
+            const alunos = await alunoRepository.find();
+            const dojos = await dojoRepository.find();
+            const messages = dojos.reduce((acc, currObj) => {
+                const dojoAlunos = alunos.filter(({ dojoId }) => dojoId === currObj.id);
+                if (dojoAlunos.length === 0) {
+                    return acc;
+                }
+                let currMessage = `🥋 *DOJO HAYATO* 🥋
+
+Olá, Sensei! 👋
+
+Estamos confirmando as inscrições para o *II CAMPEONATO JESUÍNO COUTINHO DOJO HAYATO*.
+
+📋 *ATLETAS CADASTRADOS:*
+━━━━━━━━━━━━━━━━━━━━━━
+
+`;
+                dojoAlunos.forEach(({ nome, peso, categoria, categoriaKata, idade }, index) => {
+                    const categoriaKataResponse = categorias_1.categorias.kata.find(({ codigo }) => codigo === categoriaKata);
+                    const categoriaShiaiResponse = categorias_1.categorias.kumite.find(({ codigo }) => codigo === categoria);
+                    currMessage += `*${index + 1}.* ${nome}
+📊 *Peso:* ${peso}kg | *Idade:* ${idade} anos
+🥋 *Kata:* ${categoriaKataResponse?.categoria || "Não definida"}
+⚔️ *Shiai:* ${categoriaShiaiResponse?.categoria || "Não definida"}
+
+`;
+                });
+                currMessage += `━━━━━━━━━━━━━━━━━━━━━━
+📊 *TOTAL:* ${dojoAlunos.length} atleta(s)
+
+Por favor, confirme se todas as informações estão corretas ou nos informe sobre eventuais alterações.
+
+🤝 Obrigado pela parceria!
+
+_Dojo Hayato - Tradição e Excelência_`;
+                acc[currObj.nome] = {
+                    message: currMessage,
+                    whatsappLink: `https://wa.me/?text=${encodeURIComponent(currMessage)}`,
+                    apiLink: `https://api.whatsapp.com/send?text=${encodeURIComponent(currMessage)}`,
+                };
+                return acc;
+            }, {});
+            const filteredMessages = Object.fromEntries(Object.entries(messages).filter(([_, data]) => data.message.length > 0));
+            const response = {
+                dojos: Object.keys(filteredMessages).map((dojoNome) => ({
+                    nome: dojoNome,
+                    mensagem: filteredMessages[dojoNome].message,
+                    links: {
+                        whatsapp: filteredMessages[dojoNome].whatsappLink,
+                        whatsappApi: filteredMessages[dojoNome].apiLink,
+                    },
+                    totalAlunos: filteredMessages[dojoNome].message.match(/\*TOTAL:\* (\d+)/)?.[1] ||
+                        "0",
+                })),
+                totais: {
+                    alunos: alunos.length,
+                    dojosComAlunos: Object.keys(filteredMessages).length,
+                },
+            };
+            reply.header("Content-Type", "application/json; charset=utf-8");
+            return reply.send(response);
+        }
+        catch (error) {
+            console.error("Erro ao listar alunos:", error);
+            return reply.status(500).send({ error: "Erro interno do servidor" });
+        }
+    });
     fastify.get("/dojo/alunos/auto/brackets", async (request, reply) => {
         try {
             const { dojoId } = request.user;
