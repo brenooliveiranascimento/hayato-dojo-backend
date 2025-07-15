@@ -52,10 +52,6 @@ const groupAthletesByCategory = (atletas, tipo) => {
 const createTournamentBracket = (atletas, categoriaInfo) => {
     const participantes = [...atletas];
     console.log(`\nCriando bracket para ${participantes.length} atletas`);
-    for (let i = participantes.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [participantes[i], participantes[j]] = [participantes[j], participantes[i]];
-    }
     const totalAtletas = participantes.length;
     const rounds = Math.ceil(Math.log2(totalAtletas));
     const atletasNoPrimeiroRound = Math.pow(2, rounds);

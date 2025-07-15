@@ -145,10 +145,10 @@ const createTournamentBracket = (
   console.log(`\nCriando bracket para ${participantes.length} atletas`);
 
   // Embaralhar atletas
-  for (let i = participantes.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [participantes[i], participantes[j]] = [participantes[j], participantes[i]];
-  }
+  // for (let i = participantes.length - 1; i > 0; i--) {
+  //   const j = Math.floor(Math.random() * (i + 1));
+  //   [participantes[i], participantes[j]] = [participantes[j], participantes[i]];
+  // }
 
   // Calcular número de rounds necessários
   const totalAtletas = participantes.length;
