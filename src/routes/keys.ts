@@ -19,6 +19,7 @@ interface Categoria {
 interface Team {
   name: string;
   atletaId?: number;
+  dojo?: string;
 }
 
 interface Seed {
@@ -188,16 +189,24 @@ const createTournamentBracket = (
   for (let i = 0; i < atletasNoPrimeiroRound / 2; i++) {
     const atleta1 = primeiroRoundComByes[i * 2];
     const atleta2 = primeiroRoundComByes[i * 2 + 1];
-
+    console.log({ atleta1 });
     const match: Seed = {
       id: currentMatchId++,
       date: new Date().toDateString(),
       teams: [
         atleta1
-          ? { name: atleta1.nome, atletaId: atleta1.id }
+          ? {
+              name: atleta1.nome,
+              atletaId: atleta1.id,
+              dojo: atleta1.dojo.nome,
+            }
           : { name: "Sem competidor" },
         atleta2
-          ? { name: atleta2.nome, atletaId: atleta2.id }
+          ? {
+              name: atleta2.nome,
+              atletaId: atleta2.id,
+              dojo: atleta2.dojo.nome,
+            }
           : { name: "Sem competidor" },
       ],
     };
@@ -367,7 +376,11 @@ export default async function bracketRoutes(fastify: FastifyInstance) {
         // Por exemplo: const isValid = await validateToken(token);
 
         // Buscar atletas do banco de dados
-        const atletasRequest = await alunoRepository.find();
+        const atletasRequest = await alunoRepository.find({
+          relations: ["dojo"],
+        });
+
+        console.log(atletasRequest);
 
         const atletas = atletasRequest.sort((a, b) =>
           a.nome.localeCompare(b.nome, "pt", { sensitivity: "base" })
@@ -1336,7 +1349,13 @@ export default async function bracketRoutes(fastify: FastifyInstance) {
                   {
                     id: globalMatchId++,
                     date: new Date().toDateString(),
-                    teams: [{ name: atleta.nome, atletaId: atleta.id }],
+                    teams: [
+                      {
+                        name: atleta.nome,
+                        atletaId: atleta.id,
+                        dojo: atleta.nome,
+                      },
+                    ],
                   },
                 ],
               },
@@ -1375,7 +1394,13 @@ export default async function bracketRoutes(fastify: FastifyInstance) {
                   {
                     id: globalMatchId++,
                     date: new Date().toDateString(),
-                    teams: [{ name: atleta.nome, atletaId: atleta.id }],
+                    teams: [
+                      {
+                        name: atleta.nome,
+                        atletaId: atleta.id,
+                        dojo: atleta.dojo.nome,
+                      },
+                    ],
                   },
                 ],
               },
@@ -1428,6 +1453,14 @@ export default async function bracketRoutes(fastify: FastifyInstance) {
             Array.from(categoriasKataUsadas)
           );
         }
+
+        console.log(
+          JSON.stringify(
+            { kumite: kumiteBrackets, kata: kataBrackets },
+            null,
+            2
+          )
+        );
 
         return reply.send({
           kumite: kumiteBrackets,
