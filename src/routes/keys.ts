@@ -24,6 +24,8 @@ interface Team {
   peso?: number;
   kyu?: string;
   dan?: string;
+  categoria?: number;
+  categoriaKata?: number;
 }
 
 interface Seed {
@@ -207,6 +209,8 @@ const createTournamentBracket = (
               peso: atleta1.peso,
               dan: atleta1.dan,
               kyu: atleta1.kyu,
+              categoria: atleta1.categoria,
+              categoriaKata: atleta1.categoriaKata,
             }
           : { name: "Sem competidor" },
         atleta2
@@ -218,6 +222,8 @@ const createTournamentBracket = (
               peso: atleta2.peso,
               dan: atleta2.dan,
               kyu: atleta2.kyu,
+              categoria: atleta2.categoria,
+              categoriaKata: atleta2.categoriaKata,
             }
           : { name: "Sem competidor" },
       ],
@@ -1370,6 +1376,8 @@ export default async function bracketRoutes(fastify: FastifyInstance) {
                         peso: atleta.peso,
                         dan: atleta.dan,
                         kyu: atleta.kyu,
+                        categoria: atleta.categoria,
+                        categoriaKata: atleta.categoriaKata,
                       },
                     ],
                   },
@@ -1419,6 +1427,8 @@ export default async function bracketRoutes(fastify: FastifyInstance) {
                         idade: atleta.idade,
                         kyu: atleta.kyu,
                         peso: atleta.peso,
+                        categoria: atleta.categoria,
+                        categoriaKata: atleta.categoriaKata,
                       },
                     ],
                   },
