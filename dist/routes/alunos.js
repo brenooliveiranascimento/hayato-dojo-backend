@@ -264,7 +264,9 @@ Dica: Acesse pelo computador para uma melhor visão.
 
 🤝 Obrigado pela parceria!
 
-_Dojo Hayato - Tradição e Excelência_`;
+_Dojo Hayato - Tradição e Excelência_
+
+*Sistema de gerenciamento de campeonatos - by: Breno Nascimento*`;
                 acc[currObj.nome] = {
                     message: currMessage,
                     whatsappLink: `https://wa.me/?text=${encodeURIComponent(currMessage)}`,
