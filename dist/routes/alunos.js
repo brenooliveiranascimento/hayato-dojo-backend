@@ -259,6 +259,9 @@ Estamos confirmando as inscrições para o *II CAMPEONATO JESUÍNO COUTINHO DOJO
 
 Por favor, confirme se todas as informações estão corretas ou nos informe sobre eventuais alterações.
 
+Todas as chaves estão em: https://hayato-dojo-frontend.vercel.app/chaves
+Dica: Acesse pelo computador para uma melhor visão.
+
 🤝 Obrigado pela parceria!
 
 _Dojo Hayato - Tradição e Excelência_`;
